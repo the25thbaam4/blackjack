@@ -1,7 +1,15 @@
 package com.berlin.htw.blackjack.game.player;
 
-public class Player {
-    private String name;
-    private int Chips;
+import com.berlin.htw.blackjack.game.Hand;
 
+public class Player {
+    private Hand hand;
+
+    public Player() {
+        hand = new Hand();
+    }
+
+    public Hand getHand() {
+        return hand;
+    }
 }
