@@ -1,6 +1,8 @@
 package com.berlin.htw.blackjack.game;
 
-public class Card {
+import android.content.Context;
+
+public class Card implements CardInterface{
     private String value;
     private String type;
     private boolean isAce;
@@ -10,10 +12,10 @@ public class Card {
         this.type = type;
 
     }
-
+    @Override
     public int getValue() {
         if ("AJQK".contains(value)){
-            if (value == "A"){
+            if (value.equals( "A")){
                 return 11;
             }
             return 10;
@@ -21,17 +23,20 @@ public class Card {
         return Integer.parseInt(value);
     }
 
-
+    @Override
     public boolean isAce(){
         return value.equals("A");
     }
-
+    @Override
     public String toString(){
         return value + "-" + type;
     }
 
     public String getImagePath() {
-        return "cards/" + toString() + ".png";
+
+      //  String imageName =  "card_" + value.toLowerCase() + "_" +  type.toLowerCase()  + ".png";
+        String imageName = toString();
+        return "@drawable/" + imageName;
     }
 
 }
