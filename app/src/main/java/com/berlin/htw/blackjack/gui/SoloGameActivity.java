@@ -51,7 +51,7 @@ public class SoloGameActivity extends Fragment {
 
             if (game.isPlayerBust()) {
                 showResult("Player bust! Dealer wins.");
-                endGame(game.getResult());
+                endGame();
             }
         });
 
@@ -59,7 +59,7 @@ public class SoloGameActivity extends Fragment {
             game.playerStand();
             updateHandUI(game.getDealerHand(), dealerHandContainer, false);
            showResult(game.getResult());
-            endGame(game.getResult());
+            endGame();
         });
 
         btnReset.setOnClickListener(v -> resetGame()); // Set reset button click listener
@@ -119,22 +119,11 @@ public class SoloGameActivity extends Fragment {
         updateHandUI(game.getPlayerHand(), playerHandContainer, false);
     }
 
-    private void endGame(String result) {
+    private void endGame() {
         btnHit.setEnabled(false);
         btnStand.setEnabled(false);
 
-        if (getView() != null) {
-            TextView resultView = new TextView(requireContext());
-            resultView.setText(result);
-            resultView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-            resultView.setGravity(Gravity.CENTER);
 
-            LinearLayout mainLayout = getView().findViewById(R.id.main);
-            if (mainLayout != null) {
-                mainLayout.removeAllViews();
-                mainLayout.addView(resultView);
-            }
-        }
     }
 
 
