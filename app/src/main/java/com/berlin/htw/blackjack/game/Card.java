@@ -4,6 +4,9 @@ import android.content.Context;
 
 public class Card implements CardInterface{
     private String value;
+
+
+
     private String type;
     private boolean isAce;
 
@@ -22,21 +25,24 @@ public class Card implements CardInterface{
         }
         return Integer.parseInt(value);
     }
-
+    public String getType() {
+        return type;
+    }
     @Override
     public boolean isAce(){
         return value.equals("A");
     }
     @Override
     public String toString(){
-        return value + "-" + type;
+        return value + "_" + type;
     }
 
     public String getImagePath() {
 
       //  String imageName =  "card_" + value.toLowerCase() + "_" +  type.toLowerCase()  + ".png";
-        String imageName = toString();
-        return "@drawable/" + imageName;
+     //   String imageName = toString();
+       // return "@drawable/" + imageName;
+        return "card_" + value.toLowerCase() + "_" + type.toLowerCase();
     }
 
 }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,7 +74,7 @@ public class SoloGameActivity extends Fragment {
         updateHandUI(game.getPlayerHand(), playerHandContainer, false);
     }
 
-    private void updateHandUI(HandInterface hand, LinearLayout handContainer, boolean hideFirstCard) {
+  /*  private void updateHandUI(HandInterface hand, LinearLayout handContainer, boolean hideFirstCard) {
         handContainer.removeAllViews();
         boolean firstCard = true;
         for (Card card : hand.getCards()) {
@@ -96,6 +97,33 @@ public class SoloGameActivity extends Fragment {
                 cardTextView.setText("Hidden");
             }
 
+            firstCard = false;
+        }
+    }
+
+   */
+
+    private void updateHandUI(HandInterface hand, LinearLayout handContainer, boolean hideFirstCard) {
+        handContainer.removeAllViews();
+        boolean firstCard = true;
+        for (Card card : hand.getCards()) {
+            ImageView cardImageView = new ImageView(requireContext());
+            int cardResId = CardUtils.getCardResourceId(requireContext(), card);
+            if (firstCard && hideFirstCard) {
+                cardImageView.setImageResource(R.drawable.card_back); // Assuming you have a card back image
+            } else {
+                cardImageView.setImageResource(cardResId);
+            }
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    1f // Weight to evenly distribute space if multiple cards
+            );
+            layoutParams.setMargins(dpToPx(4), dpToPx(4), dpToPx(4), dpToPx(4)); // Adjust margins as needed
+            cardImageView.setLayoutParams(layoutParams);
+
+            handContainer.addView(cardImageView);
             firstCard = false;
         }
     }
