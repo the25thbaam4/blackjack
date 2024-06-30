@@ -7,11 +7,10 @@ import java.util.Random;
 
 public class Deck implements DeckInterface {
     private List<Card> cards;
-    private Random random;
+    private boolean shuffled;
 
     public Deck() {
         buildDeck();
-        random = new Random();
     }
     @Override
 
@@ -30,15 +29,7 @@ public class Deck implements DeckInterface {
     @Override
     public void shuffle() {
         Collections.shuffle(cards);
-       /* for (int i = 0; i < cards.size(); i++) {
-            int j = random.nextInt(cards.size());
-            Card currCard = cards.get(i);
-            Card randomCard = cards.get(j);
-            cards.set(i, randomCard);
-            cards.set(j, currCard);
-        }
-
-        */
+        shuffled = true;
     }
     @Override
     public Card dealCard() {
@@ -47,4 +38,9 @@ public class Deck implements DeckInterface {
         }
         throw new IllegalStateException("No cards left in the deck");
     }
+    @Override
+    public boolean isShuffled() {
+        return shuffled;
+    }
+
 }

@@ -1,15 +1,12 @@
 package com.berlin.htw.blackjack.gui;
 
 import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,7 +25,7 @@ public class SoloGameActivity extends Fragment {
     private LinearLayout playerHandContainer;
     private Button btnHit;
     private Button btnStand;
-    private Button btnReset; // New button for resetting the game
+    private Button btnReset;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -6,13 +6,15 @@ import android.util.Log;
 
 public class BlackJackGame implements BlackJackInterface {
 
+
     private DeckInterface deck;
     private DealerInterface dealer;
     private PlayerInterface player;
     private CardInterface hiddenCard;
 
     public BlackJackGame() {
-
+        dealer = new Dealer();
+        player = new Player();
     }
 
 
@@ -21,8 +23,7 @@ public class BlackJackGame implements BlackJackInterface {
         deck = new Deck();
         deck.shuffle();
 
-        dealer = new Dealer();
-        player = new Player();
+
 
         // Deal initial cards to dealer and player
         dealer.addHiddenCard(deck.dealCard());
@@ -50,7 +51,9 @@ public class BlackJackGame implements BlackJackInterface {
         return player.getHand().calculateSum() > 21;
     }
 
-
+    public boolean isDealerBust() {
+        return dealer.getHand().calculateSum() > 21;
+    }
 
     public String getResult() {
         int playerSum = player.getHand().calculateSum();
@@ -74,5 +77,16 @@ public class BlackJackGame implements BlackJackInterface {
 
     public HandInterface getPlayerHand(){
         return player.getHand();
+    }
+    public DeckInterface getDeck() {
+        return deck;
+    }
+
+    public DealerInterface getDealer() {
+        return dealer;
+    }
+
+    public PlayerInterface getPlayer() {
+        return player;
     }
 }

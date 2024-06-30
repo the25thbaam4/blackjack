@@ -1,7 +1,5 @@
 package com.berlin.htw.blackjack.game;
 
-import android.content.Context;
-
 public class Card implements CardInterface{
     private String value;
 
@@ -39,9 +37,6 @@ public class Card implements CardInterface{
 
     public String getImagePath() {
 
-      //  String imageName =  "card_" + value.toLowerCase() + "_" +  type.toLowerCase()  + ".png";
-     //   String imageName = toString();
-       // return "@drawable/" + imageName;
         return "card_" + value.toLowerCase() + "_" + type.toLowerCase();
     }
 

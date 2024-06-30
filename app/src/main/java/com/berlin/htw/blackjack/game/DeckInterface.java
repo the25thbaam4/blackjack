@@ -4,4 +4,5 @@ public interface DeckInterface {
     void buildDeck();
     void shuffle();
     Card dealCard();
+    boolean isShuffled();
 }

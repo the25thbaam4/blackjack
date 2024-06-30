@@ -1,5 +1,6 @@
 package com.berlin.htw.blackjack.gui;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -37,18 +38,24 @@ public class ChooseGameFragment extends Fragment {
         btnConfirmSelection.setOnClickListener(v -> {
             int selectedId = radioGroupGameOptions.getCheckedRadioButtonId();
             if (selectedId == R.id.radioStartSoloGame) {
-                // Navigate to the SoloGameFragment
                 SoloGameActivity soloGameActivity = new SoloGameActivity();
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, soloGameActivity);
                 transaction.addToBackStack(null);
                 transaction.commit();
             } else if (selectedId == R.id.radioJoinBluetoothGame) {
-                // Handle the Bluetooth game selection (if implemented)
+                BluetoothJoinFragment bluetoothJoinFragment = new BluetoothJoinFragment();
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, bluetoothJoinFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
+
         return view;
     }
-    }
+
+
+}
 

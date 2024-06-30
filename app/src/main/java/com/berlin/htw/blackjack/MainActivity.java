@@ -1,16 +1,12 @@
 package com.berlin.htw.blackjack;
 
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -22,6 +18,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     private TextView welcomeText;
     private TextView promptText;
     private FrameLayout fragmentContainer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
