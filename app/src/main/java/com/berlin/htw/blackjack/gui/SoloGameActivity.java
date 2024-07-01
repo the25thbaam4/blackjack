@@ -66,7 +66,7 @@ public class SoloGameActivity extends AppCompatActivity {
             updateHandUI(game.getPlayerHand(), playerHandContainer, false);
 
             if (game.isPlayerBust()) {
-                showResult("Player bust! Dealer wins.");
+                showResult(game.getPlayer().getUsername() +" bust! Dealer wins.");
                 endGame();
             }
         });
@@ -151,7 +151,7 @@ public class SoloGameActivity extends AppCompatActivity {
 
         btnHit.setEnabled(true);
         btnStand.setEnabled(true);
-        btnPlaceBet.setEnabled(true); // Enable place bet button for new round
+        btnPlaceBet.setEnabled(true);
     }
 
     private int dpToPx(int dp) {
