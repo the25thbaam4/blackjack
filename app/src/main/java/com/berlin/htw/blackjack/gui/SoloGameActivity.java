@@ -28,7 +28,6 @@ public class SoloGameActivity extends AppCompatActivity {
     private EditText etBetAmount;
     private TextView tvChips;
     private Button btnNextRound;
-    private Bundle bundle;
 
 
     @Override
@@ -94,7 +93,7 @@ public class SoloGameActivity extends AppCompatActivity {
             ImageView cardImageView = new ImageView(this);
             int cardResId = CardUtils.getCardResourceId(this, card);
             if (firstCard && hideFirstCard) {
-                cardImageView.setImageResource(R.drawable.card_back); // Assuming you have a card back image
+                cardImageView.setImageResource(R.drawable.card_back);
             } else {
                 cardImageView.setImageResource(cardResId);
             }

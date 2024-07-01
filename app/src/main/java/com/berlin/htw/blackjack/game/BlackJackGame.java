@@ -57,11 +57,11 @@ public class BlackJackGame implements BlackJackInterface {
     public void resolveBet() {
         String result = getResult();
 
-        if (result.contains("Player wins")) {
+        if (result.contains(getPlayer().getUsername() + " wins")) {
             player.increaseChips(currentBet * 2);
         } else if (result.contains("It's a tie")) {
             player.increaseChips(currentBet);
-        } else if (result.contains("Dealer bust! Player wins.")) {
+        } else if (result.contains("Dealer bust! "+ getPlayer().getUsername() + " wins.")) {
             player.increaseChips(currentBet * 2);
         }
 
@@ -79,6 +79,8 @@ public class BlackJackGame implements BlackJackInterface {
 
         player.getHand().addCard(deck.dealCard());
         player.getHand().addCard(deck.dealCard());
+        resolveBet();
+
     }
 
     @Override
@@ -93,6 +95,7 @@ public class BlackJackGame implements BlackJackInterface {
         } else {
             Log.e(TAG, "deck or player is null, ensure they are properly initialized");
         }
+        resolveBet();
     }
 
     @Override
