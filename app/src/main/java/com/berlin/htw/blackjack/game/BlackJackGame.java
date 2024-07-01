@@ -4,6 +4,15 @@ import static android.content.ContentValues.TAG;
 
 import android.util.Log;
 
+import com.berlin.htw.blackjack.game.model.CardInterface;
+import com.berlin.htw.blackjack.game.model.Dealer;
+import com.berlin.htw.blackjack.game.model.DealerInterface;
+import com.berlin.htw.blackjack.game.model.Deck;
+import com.berlin.htw.blackjack.game.model.DeckInterface;
+import com.berlin.htw.blackjack.game.model.HandInterface;
+import com.berlin.htw.blackjack.game.model.Player;
+import com.berlin.htw.blackjack.game.model.PlayerInterface;
+
 public class BlackJackGame implements BlackJackInterface {
 
 
@@ -11,10 +20,10 @@ public class BlackJackGame implements BlackJackInterface {
     private DealerInterface dealer;
     private PlayerInterface player;
     private CardInterface hiddenCard;
+    private int currentBet;
 
     public BlackJackGame() {
-        dealer = new Dealer();
-        player = new Player();
+
     }
 
 
@@ -23,7 +32,8 @@ public class BlackJackGame implements BlackJackInterface {
         deck = new Deck();
         deck.shuffle();
 
-
+        dealer = new Dealer();
+        player = new Player();
 
         // Deal initial cards to dealer and player
         dealer.addHiddenCard(deck.dealCard());
@@ -32,6 +42,35 @@ public class BlackJackGame implements BlackJackInterface {
         player.getHand().addCard(deck.dealCard());
         player.getHand().addCard(deck.dealCard());
 
+    }
+
+    @Override
+    public void placeBet(int bet) {
+        if (bet > player.getChips()) {
+            throw new IllegalArgumentException("Bet exceeds available chips");
+        }
+        currentBet = bet;
+        player.decreaseChips(bet);
+    }
+
+    @Override
+    public void resolveBet() {
+        String result = getResult();
+
+        if (result.contains("Player wins")) {
+            player.increaseChips(currentBet * 2);
+        } else if (result.contains("It's a tie")) {
+            player.increaseChips(currentBet);
+        } else if(result.contains("Dealer bust! Player wins.")){
+            player.increaseChips(currentBet * 2);
+        }
+
+        currentBet = 0;
+    }
+
+    @Override
+    public boolean isGameOver() {
+        return player.getChips() <= 0;
     }
 
     public void playerHit() {
@@ -45,6 +84,7 @@ public class BlackJackGame implements BlackJackInterface {
         while (dealer.getHand().calculateSum() < 17) {
             dealer.getHand().addCard(deck.dealCard());
         }
+        resolveBet();
     }
 
     public boolean isPlayerBust() {

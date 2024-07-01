@@ -1,13 +1,17 @@
 package com.berlin.htw.blackjack.mockAndTemplates;
 
-import static com.berlin.htw.blackjack.mockAndTemplates.TestUtils.*;
+import static com.berlin.htw.blackjack.mockAndTemplates.TestUtils.ALICE;
+import static com.berlin.htw.blackjack.mockAndTemplates.TestUtils.BOB;
+import static com.berlin.htw.blackjack.mockAndTemplates.TestUtils.YOUR_APP_NAME;
+import static com.berlin.htw.blackjack.mockAndTemplates.TestUtils.YOUR_URI;
 
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.ASAPPeer;
 import net.sharksystem.asap.apps.testsupport.ASAPTestPeerFS;
+
 import org.junit.Test;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 

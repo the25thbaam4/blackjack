@@ -1,128 +1,151 @@
 package com.berlin.htw.blackjack.gui;
 
-import android.Manifest;
+import static android.app.Activity.RESULT_OK;
+
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.berlin.htw.blackjack.R;
 
-import java.util.ArrayList;
+import java.util.Set;
 
 public class BluetoothJoinFragment extends Fragment {
 
-    private static final int REQUEST_ENABLE_BT = 1;
-    private static final int REQUEST_LOCATION_PERMISSION = 2;
+    private ActivityResultLauncher<Intent> enableBluetoothLauncher;
+    private ActivityResultLauncher<Intent> discoverBluetoothLauncher;
+    private ActivityResultLauncher<String> requestPermissionLauncher;
 
+
+    private static final int REQUEST_ENABLE_BT = 0;
+    private static final int REQUEST_DISCOVER_BT = 1;
+
+    private TextView mStatusBleTv, mPairedTv;
+    private ImageView mBlueIV;
+    private Button mOnBtn, mOffBtn, mDiscoverBtn, mPairedBtn;
     private BluetoothAdapter bluetoothAdapter;
-    private ArrayList<String> deviceList = new ArrayList<>();
-    private ArrayAdapter<String> arrayAdapter;
-    private ListView listView;
-    private Button scanButton;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bluetooth_join, container, false);
 
-        listView = view.findViewById(R.id.device_list);
-        scanButton = view.findViewById(R.id.scan_button);
-
-        arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, deviceList);
-        listView.setAdapter(arrayAdapter);
+        mStatusBleTv = view.findViewById(R.id.statusBluetoothTv);
+        mPairedTv = view.findViewById(R.id.pairTv);
+        mBlueIV = view.findViewById(R.id.bluetoothIv);
+        mOnBtn = view.findViewById(R.id.onButn);
+        mOffBtn = view.findViewById(R.id.offButn);
+        mDiscoverBtn = view.findViewById(R.id.discoverableBtn);
+        mPairedBtn = view.findViewById(R.id.PairedBtn);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if (bluetoothAdapter == null) {
-            Toast.makeText(getContext(), "Bluetooth is not available", Toast.LENGTH_LONG).show();
-            getActivity().finish();
-        }
+            mStatusBleTv.setText("Bluetooth is not available");
+        } else {
+            mStatusBleTv.setText("Bluetooth is available");
 
-        scanButton.setOnClickListener(v -> {
-            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
+            if (bluetoothAdapter.isEnabled()) {
+                mBlueIV.setImageResource(R.drawable.bluetooth_on);
             } else {
-                startDiscovery();
+                mBlueIV.setImageResource(R.drawable.bluetooth_off);
             }
-        });
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = (String) parent.getItemAtPosition(position);
-                String address = item.substring(item.length() - 17);
-                connectToDevice(address);
-            }
-        });
+            mOnBtn.setOnClickListener(v -> {
+                if (!bluetoothAdapter.isEnabled()) {
+                    showToast("Turning on Bluetooth..");
+                    Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    enableBluetoothLauncher.launch(intent);
+                } else {
+                    showToast("Bluetooth is already on");
+                }
+            });
 
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        getContext().registerReceiver(receiver, filter);
+            mDiscoverBtn.setOnClickListener(v -> {
+                if (!bluetoothAdapter.isDiscovering()) {
+                    showToast("Making Your Device Discoverable");
+                    Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+                    intent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);  // Make discoverable for 300 seconds
+                    discoverBluetoothLauncher.launch(intent);
+                }
+            });
+
+            mOffBtn.setOnClickListener(v -> {
+                if (bluetoothAdapter.isEnabled()) {
+                    bluetoothAdapter.disable();
+                    showToast("Turning Bluetooth off");
+                    mBlueIV.setImageResource(R.drawable.bluetooth_off);
+                } else {
+                    showToast("Bluetooth is already off");
+                }
+            });
+
+            mPairedBtn.setOnClickListener(v -> {
+                if (bluetoothAdapter.isEnabled()) {
+                    mPairedTv.setText("Paired Devices");
+                    Set<BluetoothDevice> devices = bluetoothAdapter.getBondedDevices();
+                    for (BluetoothDevice device : devices) {
+                        mPairedTv.append("\nDevice: " + device.getName() + " , " + device);
+                    }
+                } else {
+                    showToast("Turn on Bluetooth to get paired devices");
+                }
+            });
+        }
 
         return view;
     }
 
-    private void startDiscovery() {
-        if (bluetoothAdapter.isDiscovering()) {
-            bluetoothAdapter.cancelDiscovery();
-        }
-        deviceList.clear();
-        arrayAdapter.notifyDataSetChanged();
-        bluetoothAdapter.startDiscovery();
-    }
-
-    private void connectToDevice(String address) {
-        BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
-        // Implement connection logic here
-    }
-
-    private final BroadcastReceiver receiver = new BroadcastReceiver() {
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                String deviceName = device.getName();
-                String deviceAddress = device.getAddress();
-                if (deviceName != null && deviceAddress != null) {
-                    deviceList.add(deviceName + "\n" + deviceAddress);
-                    arrayAdapter.notifyDataSetChanged();
-                }
-            }
-        }
-    };
-
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getContext().unregisterReceiver(receiver);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_LOCATION_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startDiscovery();
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_ENABLE_BT) {
+            if (resultCode == RESULT_OK) {
+                mBlueIV.setImageResource(R.drawable.bluetooth_on);
+                showToast("Bluetooth is on");
             } else {
-                Toast.makeText(getContext(), "Location permission is required for Bluetooth discovery", Toast.LENGTH_SHORT).show();
+                showToast("Bluetooth is off");
             }
         }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        enableBluetoothLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        mBlueIV.setImageResource(R.drawable.bluetooth_on);
+                        showToast("Bluetooth is On");
+                    } else {
+                        showToast("Bluetooth is Off");
+                    }
+                });
+
+        discoverBluetoothLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    showToast("Device is discoverable for 300 seconds");
+                });
+    }
+
+    private void showToast(String msg) {
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 }

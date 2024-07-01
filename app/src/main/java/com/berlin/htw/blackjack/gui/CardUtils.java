@@ -2,7 +2,7 @@ package com.berlin.htw.blackjack.gui;
 
 import android.content.Context;
 
-import com.berlin.htw.blackjack.game.Card;
+import com.berlin.htw.blackjack.game.model.Card;
 
 public class CardUtils {
 

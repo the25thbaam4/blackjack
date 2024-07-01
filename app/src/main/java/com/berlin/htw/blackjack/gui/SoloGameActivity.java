@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,8 +17,8 @@ import androidx.fragment.app.Fragment;
 
 import com.berlin.htw.blackjack.R;
 import com.berlin.htw.blackjack.game.BlackJackGame;
-import com.berlin.htw.blackjack.game.Card;
-import com.berlin.htw.blackjack.game.HandInterface;
+import com.berlin.htw.blackjack.game.model.Card;
+import com.berlin.htw.blackjack.game.model.HandInterface;
 
 public class SoloGameActivity extends Fragment {
 
@@ -26,7 +28,10 @@ public class SoloGameActivity extends Fragment {
     private Button btnHit;
     private Button btnStand;
     private Button btnReset;
-
+    private Button btnPlaceBet;
+    private EditText etBetAmount;
+    private TextView tvChips;
+    private Button btnNextRound;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.activity_solo_game, container, false);
@@ -40,9 +45,16 @@ public class SoloGameActivity extends Fragment {
         playerHandContainer = view.findViewById(R.id.playerHandContainer);
         btnHit = view.findViewById(R.id.btnHit);
         btnStand = view.findViewById(R.id.btnStand);
-        btnReset = view.findViewById(R.id.btnReset); // Initialize reset button
+        btnReset = view.findViewById(R.id.btnReset);
+        btnPlaceBet = view.findViewById(R.id.btnPlaceBet);
+        etBetAmount = view.findViewById(R.id.etBetAmount);
+        tvChips = view.findViewById(R.id.tvChips);
+        btnNextRound = view.findViewById(R.id.btnNextRound);
+        game = new BlackJackGame();
+        game.startGame();
 
-        // Set click listeners
+
+        btnPlaceBet.setOnClickListener(v -> placeBet());
         btnHit.setOnClickListener(v -> {
             game.playerHit();
             updateHandUI(game.getPlayerHand(), playerHandContainer, false);
@@ -60,15 +72,15 @@ public class SoloGameActivity extends Fragment {
             endGame();
         });
 
-        btnReset.setOnClickListener(v -> resetGame()); // Set reset button click listener
+        btnReset.setOnClickListener(v -> resetGame());
 
-        // Initialize the game logic
-        game = new BlackJackGame();
-        game.startGame();
+        updateUI();
+
+
 
         // Update the UI with initial hands
-        updateHandUI(game.getDealerHand(), dealerHandContainer, true); // Hide dealer's first card
-        updateHandUI(game.getPlayerHand(), playerHandContainer, false);
+      //  updateHandUI(game.getDealerHand(), dealerHandContainer, true); // Hide dealer's first card
+        //updateHandUI(game.getPlayerHand(), playerHandContainer, false);
     }
 
   /*  private void updateHandUI(HandInterface hand, LinearLayout handContainer, boolean hideFirstCard) {
@@ -115,7 +127,7 @@ public class SoloGameActivity extends Fragment {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT,
-                    1f // Weight to evenly distribute space if multiple cards
+                    1f
             );
             layoutParams.setMargins(dpToPx(4), dpToPx(4), dpToPx(4), dpToPx(4)); // Adjust margins as needed
             cardImageView.setLayoutParams(layoutParams);
@@ -126,31 +138,52 @@ public class SoloGameActivity extends Fragment {
     }
 
     private void resetGame() {
-        // Reset game logic
+       if (game.isGameOver()){
+           Toast.makeText(requireContext(), "Game Over! Your chips are 0.", Toast.LENGTH_LONG).show();
+       }
+
+
+        dealerHandContainer.removeAllViews();
+        playerHandContainer.removeAllViews();
         game.startGame();
 
-        // Enable buttons if disabled
+
         btnHit.setEnabled(true);
         btnStand.setEnabled(true);
-
+        btnPlaceBet.setEnabled(true);
         // Clear result text if exists
-        LinearLayout mainLayout = getView().findViewById(R.id.main);
+      /*  LinearLayout mainLayout = getView().findViewById(R.id.main);
         if (mainLayout != null) {
             mainLayout.removeAllViews();
         }
 
+       */
+
         // Update UI with initial hands
-        updateHandUI(game.getDealerHand(), dealerHandContainer, true); // Hide dealer's first card
-        updateHandUI(game.getPlayerHand(), playerHandContainer, false);
+
+        updateUI();
     }
 
     private void endGame() {
+
         btnHit.setEnabled(false);
         btnStand.setEnabled(false);
-
-
+        resolveBet();
+        updateChipsUI();
+        btnPlaceBet.setEnabled(true);
+        resetGameState();
+        updateUI();
     }
+    private void resetGameState() {
+        dealerHandContainer.removeAllViews();
+        playerHandContainer.removeAllViews();
 
+        game.startGame();
+
+        btnHit.setEnabled(true);
+        btnStand.setEnabled(true);
+        btnPlaceBet.setEnabled(true); // Enable place bet button for new round
+    }
 
     private int dpToPx(int dp) {
         float density = requireContext().getResources().getDisplayMetrics().density;
@@ -159,5 +192,40 @@ public class SoloGameActivity extends Fragment {
 
     private void showResult(String result) {
         Toast.makeText(requireContext(), result, Toast.LENGTH_LONG).show();
+    }
+
+    private void placeBet() {
+        String betAmountStr = etBetAmount.getText().toString();
+        if (betAmountStr.isEmpty()) {
+            Toast.makeText(requireContext(), "Please enter a bet amount", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        int betAmount = Integer.parseInt(betAmountStr);
+        if (betAmount <= 0 || betAmount > game.getPlayer().getChips()) {
+            Toast.makeText(requireContext(), "Invalid bet amount", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        game.placeBet(betAmount);
+        updateChipsUI();
+
+        // Enable game buttons
+        btnHit.setEnabled(true);
+        btnStand.setEnabled(true);
+        btnPlaceBet.setEnabled(false);
+    }
+    private void resolveBet() {
+        game.resolveBet();
+        updateChipsUI();
+    }
+
+    private void updateChipsUI() {
+        tvChips.setText("Chips: " + game.getPlayer().getChips());
+    }
+
+    private void updateUI() {
+        updateHandUI(game.getDealerHand(), dealerHandContainer, true); // Hide dealer's first card
+        updateHandUI(game.getPlayerHand(), playerHandContainer, false);
+        updateChipsUI();
     }
 }

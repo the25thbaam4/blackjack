@@ -1,4 +1,4 @@
-package com.berlin.htw.blackjack.game;
+package com.berlin.htw.blackjack.game.model;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.berlin.htw.blackjack.game;
+package com.berlin.htw.blackjack.game.model;
 
 public class Card implements CardInterface{
     private String value;

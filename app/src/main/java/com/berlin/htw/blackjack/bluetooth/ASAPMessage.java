@@ -1,4 +1,4 @@
-package com.berlin.htw.blackjack.mockAndTemplates;
+package com.berlin.htw.blackjack.bluetooth;
 
 import net.sharksystem.asap.ASAPHop;
 import net.sharksystem.asap.ASAPMessageReceivedListener;
@@ -8,22 +8,14 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-public class ASAPMessageReceivedListenerExample implements ASAPMessageReceivedListener {
+public class ASAPMessage implements ASAPMessageReceivedListener {
     private final String peerName;
 
-    ASAPMessageReceivedListenerExample(String peerName) {
+    ASAPMessage(String peerName) {
         this.peerName = peerName;
     }
-
-    public ASAPMessageReceivedListenerExample() {
-        this(null);
-    }
-
     @Override
-    public void asapMessagesReceived(ASAPMessages messages,
-                                     String senderE2E, // E2E part
-                                     List<ASAPHop> asapHop) throws IOException {
-
+    public void asapMessagesReceived(ASAPMessages messages, String s, List<ASAPHop> list) throws IOException {
         CharSequence format = messages.getFormat();
         CharSequence uri = messages.getURI();
         if (peerName != null) {
@@ -33,7 +25,8 @@ public class ASAPMessageReceivedListenerExample implements ASAPMessageReceivedLi
         System.out.println("asap message received (" + format + " | " + uri + "). size == " + messages.size());
         Iterator<byte[]> yourPDUIter = messages.getMessages();
         while (yourPDUIter.hasNext()) {
-            TestUtils.deserializeExample(yourPDUIter.next());
+         //   TestUtils.deserializeExample(yourPDUIter.next());
         }
     }
+
 }

@@ -1,9 +1,8 @@
-package com.berlin.htw.blackjack.game;
+package com.berlin.htw.blackjack.game.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class Deck implements DeckInterface {
     private List<Card> cards;
