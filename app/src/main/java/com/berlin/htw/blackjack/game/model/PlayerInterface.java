@@ -5,6 +5,8 @@ public interface PlayerInterface {
     int getChips();
     void increaseChips(int amount);
     void decreaseChips(int amount);
+    String getUsername();
+    void setUsername(String username);
 
 
 }

@@ -3,6 +3,7 @@ package com.berlin.htw.blackjack.game.model;
 public class Player implements PlayerInterface {
     private Hand hand;
     private int chips;
+    private String username;
 
     public Player() {
         hand = new Hand();
@@ -28,6 +29,16 @@ public class Player implements PlayerInterface {
     public void decreaseChips(int amount) {
         this.chips -= amount;
 
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public void setUsername(String username) {
+    this.username = username;
     }
 
 }

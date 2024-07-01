@@ -1,18 +1,24 @@
 package com.berlin.htw.blackjack;
 
+import static android.content.ContentValues.TAG;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.berlin.htw.blackjack.gui.ChooseGameFragment;
+import com.berlin.htw.blackjack.gui.SoloGameActivity;
 
-public class MainActivity extends AppCompatActivity  implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText username;
     private Button btnStart;
     private TextView welcomeText;
@@ -39,27 +45,34 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         if (v.getId() == R.id.btnStart) {
             String userNameInput = username.getText().toString();
             if (!userNameInput.isEmpty()) {
-                // Pass the username to the fragment
+
+
+
                 Bundle bundle = new Bundle();
                 bundle.putString("USERNAME", userNameInput);
+                Log.d(TAG, "Username input: " + userNameInput);
 
                 ChooseGameFragment chooseGameFragment = new ChooseGameFragment();
                 chooseGameFragment.setArguments(bundle);
 
-                // Replace the current view with the fragment
+
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, chooseGameFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
 
-                // Hide the initial UI elements
+
+
+
                 welcomeText.setVisibility(View.GONE);
                 promptText.setVisibility(View.GONE);
                 username.setVisibility(View.GONE);
                 btnStart.setVisibility(View.GONE);
 
-                // Show the fragment container
+
                 fragmentContainer.setVisibility(View.VISIBLE);
+            } else {
+                Toast.makeText(this, "Please enter a username", Toast.LENGTH_SHORT).show();
             }
         }
     }
