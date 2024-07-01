@@ -93,7 +93,7 @@ public class BlackJackGame implements BlackJackInterface {
         if (deck != null && player != null) {
             player.getHand().addCard(deck.dealCard());
         } else {
-            Log.e(TAG, "deck or player is null, ensure they are properly initialized");
+            Log.e(TAG, "deck or player is null");
         }
         resolveBet();
     }
