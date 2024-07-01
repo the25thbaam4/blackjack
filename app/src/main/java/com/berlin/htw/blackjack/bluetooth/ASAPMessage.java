@@ -14,6 +14,7 @@ public class ASAPMessage implements ASAPMessageReceivedListener {
     ASAPMessage(String peerName) {
         this.peerName = peerName;
     }
+
     @Override
     public void asapMessagesReceived(ASAPMessages messages, String s, List<ASAPHop> list) throws IOException {
         CharSequence format = messages.getFormat();
@@ -25,7 +26,7 @@ public class ASAPMessage implements ASAPMessageReceivedListener {
         System.out.println("asap message received (" + format + " | " + uri + "). size == " + messages.size());
         Iterator<byte[]> yourPDUIter = messages.getMessages();
         while (yourPDUIter.hasNext()) {
-         //   TestUtils.deserializeExample(yourPDUIter.next());
+            //   TestUtils.deserializeExample(yourPDUIter.next());
         }
     }
 

@@ -1,15 +1,7 @@
 package com.berlin.htw.blackjack.gui;
 
-import static android.app.PendingIntent.getActivity;
-import static android.content.ContentValues.TAG;
-import static android.content.Intent.getIntent;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,10 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import com.berlin.htw.blackjack.R;
 import com.berlin.htw.blackjack.game.BlackJackGame;
@@ -69,11 +58,6 @@ public class SoloGameActivity extends AppCompatActivity {
                 game.getPlayer().setUsername(username);
             }
         }
-
-
-
-
-
 
 
         btnPlaceBet.setOnClickListener(v -> placeBet());

@@ -2,7 +2,6 @@ package com.berlin.htw.blackjack;
 
 import static android.content.ContentValues.TAG;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.berlin.htw.blackjack.gui.ChooseGameFragment;
-import com.berlin.htw.blackjack.gui.SoloGameActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText username;
@@ -47,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (!userNameInput.isEmpty()) {
 
 
-
                 Bundle bundle = new Bundle();
                 bundle.putString("USERNAME", userNameInput);
                 Log.d(TAG, "Username input: " + userNameInput);
@@ -60,8 +57,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 transaction.replace(R.id.fragment_container, chooseGameFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
-
-
 
 
                 welcomeText.setVisibility(View.GONE);

@@ -61,12 +61,13 @@ public class BlackJackGame implements BlackJackInterface {
             player.increaseChips(currentBet * 2);
         } else if (result.contains("It's a tie")) {
             player.increaseChips(currentBet);
-        } else if(result.contains("Dealer bust! Player wins.")){
+        } else if (result.contains("Dealer bust! Player wins.")) {
             player.increaseChips(currentBet * 2);
         }
 
         currentBet = 0;
     }
+
     @Override
     public void startNextRound() {
         dealer.getHand().clear();
@@ -79,10 +80,12 @@ public class BlackJackGame implements BlackJackInterface {
         player.getHand().addCard(deck.dealCard());
         player.getHand().addCard(deck.dealCard());
     }
+
     @Override
     public boolean isGameOver() {
         return player.getChips() <= 0;
     }
+
     @Override
     public void playerHit() {
         if (deck != null && player != null) {
@@ -91,6 +94,7 @@ public class BlackJackGame implements BlackJackInterface {
             Log.e(TAG, "deck or player is null, ensure they are properly initialized");
         }
     }
+
     @Override
     public void playerStand() {
         while (dealer.getHand().calculateSum() < 17) {
@@ -98,14 +102,17 @@ public class BlackJackGame implements BlackJackInterface {
         }
         resolveBet();
     }
+
     @Override
     public boolean isPlayerBust() {
         return player.getHand().calculateSum() > 21;
     }
+
     @Override
     public boolean isDealerBust() {
         return dealer.getHand().calculateSum() > 21;
     }
+
     @Override
     public String getResult() {
         int playerSum = player.getHand().calculateSum();
@@ -114,7 +121,7 @@ public class BlackJackGame implements BlackJackInterface {
         if (playerSum > 21) {
             return getPlayer().getUsername() + " bust! Dealer wins.";
         } else if (dealerSum > 21) {
-            return "Dealer bust! "+ getPlayer().getUsername() +" wins.";
+            return "Dealer bust! " + getPlayer().getUsername() + " wins.";
         } else if (playerSum > dealerSum) {
             return getPlayer().getUsername() + " wins!";
         } else if (dealerSum > playerSum) {
@@ -123,22 +130,27 @@ public class BlackJackGame implements BlackJackInterface {
             return "It's a tie!";
         }
     }
+
     @Override
-    public HandInterface getDealerHand(){
+    public HandInterface getDealerHand() {
         return dealer.getHand();
     }
+
     @Override
-    public HandInterface getPlayerHand(){
+    public HandInterface getPlayerHand() {
         return player.getHand();
     }
+
     @Override
     public DeckInterface getDeck() {
         return deck;
     }
+
     @Override
     public DealerInterface getDealer() {
         return dealer;
     }
+
     @Override
     public PlayerInterface getPlayer() {
         return player;

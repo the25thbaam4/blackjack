@@ -3,20 +3,23 @@ package com.berlin.htw.blackjack.game.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Hand implements HandInterface   {
+public class Hand implements HandInterface {
     private List<Card> cards;
 
     public Hand() {
         cards = new ArrayList<>();
     }
+
     @Override
     public void addCard(Card card) {
         cards.add(card);
     }
+
     @Override
     public List<Card> getCards() {
         return cards;
     }
+
     @Override
     public int calculateSum() {
         int sum = 0;

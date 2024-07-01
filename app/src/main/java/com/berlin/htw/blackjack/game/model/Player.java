@@ -9,6 +9,7 @@ public class Player implements PlayerInterface {
         hand = new Hand();
         chips = 10;
     }
+
     @Override
 
     public HandInterface getHand() {
@@ -38,7 +39,7 @@ public class Player implements PlayerInterface {
 
     @Override
     public void setUsername(String username) {
-    this.username = username;
+        this.username = username;
     }
 
 }

@@ -10,5 +10,5 @@ public class CardUtils {
         String resourceName = card.getImagePath();
         return context.getResources().getIdentifier(resourceName, "drawable", context.getPackageName());
     }
-    }
+}
 

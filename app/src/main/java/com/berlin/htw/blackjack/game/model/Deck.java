@@ -11,6 +11,7 @@ public class Deck implements DeckInterface {
     public Deck() {
         buildDeck();
     }
+
     @Override
 
     public void buildDeck() {
@@ -25,11 +26,13 @@ public class Deck implements DeckInterface {
             }
         }
     }
+
     @Override
     public void shuffle() {
         Collections.shuffle(cards);
         shuffled = true;
     }
+
     @Override
     public Card dealCard() {
         if (!cards.isEmpty()) {
@@ -37,6 +40,7 @@ public class Deck implements DeckInterface {
         }
         throw new IllegalStateException("No cards left in the deck");
     }
+
     @Override
     public boolean isShuffled() {
         return shuffled;

@@ -20,7 +20,7 @@ public class BTGame extends BlackJackGame {
     }
 
     public static BTGame applicationInstance(Activity initialActivity) {
-        if(BTGame.instance == null) {
+        if (BTGame.instance == null) {
             Collection<CharSequence> formats = new ArrayList<>();
             formats.add(ASAP_Messenger);
 
