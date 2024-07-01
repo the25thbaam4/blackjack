@@ -37,5 +37,10 @@ public class Hand implements HandInterface   {
         return sum;
     }
 
+    @Override
+    public void clear() {
+        cards.clear();
+    }
+
 
 }

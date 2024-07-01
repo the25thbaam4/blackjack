@@ -55,6 +55,7 @@ public class SoloGameActivity extends Fragment {
 
 
         btnPlaceBet.setOnClickListener(v -> placeBet());
+
         btnHit.setOnClickListener(v -> {
             game.playerHit();
             updateHandUI(game.getPlayerHand(), playerHandContainer, false);
@@ -68,49 +69,17 @@ public class SoloGameActivity extends Fragment {
         btnStand.setOnClickListener(v -> {
             game.playerStand();
             updateHandUI(game.getDealerHand(), dealerHandContainer, false);
-           showResult(game.getResult());
+            showResult(game.getResult());
             endGame();
         });
+
+        btnNextRound.setOnClickListener(v -> startNextRound());
 
         btnReset.setOnClickListener(v -> resetGame());
 
         updateUI();
 
-
-
-        // Update the UI with initial hands
-      //  updateHandUI(game.getDealerHand(), dealerHandContainer, true); // Hide dealer's first card
-        //updateHandUI(game.getPlayerHand(), playerHandContainer, false);
     }
-
-  /*  private void updateHandUI(HandInterface hand, LinearLayout handContainer, boolean hideFirstCard) {
-        handContainer.removeAllViews();
-        boolean firstCard = true;
-        for (Card card : hand.getCards()) {
-            TextView cardTextView = new TextView(requireContext());
-            cardTextView.setText(card.toString());
-            cardTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16); // Adjust text size as needed
-            cardTextView.setGravity(Gravity.CENTER); // Center text horizontally
-
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    1f // Weight to evenly distribute space if multiple cards
-            );
-            layoutParams.setMargins(dpToPx(4), dpToPx(30), dpToPx(4), dpToPx(50)); // Adjust margins as needed
-            cardTextView.setLayoutParams(layoutParams);
-
-            handContainer.addView(cardTextView);
-
-            if (firstCard && hideFirstCard) {
-                cardTextView.setText("Hidden");
-            }
-
-            firstCard = false;
-        }
-    }
-
-   */
 
     private void updateHandUI(HandInterface hand, LinearLayout handContainer, boolean hideFirstCard) {
         handContainer.removeAllViews();
@@ -142,25 +111,14 @@ public class SoloGameActivity extends Fragment {
            Toast.makeText(requireContext(), "Game Over! Your chips are 0.", Toast.LENGTH_LONG).show();
        }
 
-
         dealerHandContainer.removeAllViews();
         playerHandContainer.removeAllViews();
         game.startGame();
 
-
         btnHit.setEnabled(true);
         btnStand.setEnabled(true);
         btnPlaceBet.setEnabled(true);
-        // Clear result text if exists
-      /*  LinearLayout mainLayout = getView().findViewById(R.id.main);
-        if (mainLayout != null) {
-            mainLayout.removeAllViews();
-        }
-
-       */
-
-        // Update UI with initial hands
-
+        btnNextRound.setEnabled(false);
         updateUI();
     }
 
@@ -170,9 +128,14 @@ public class SoloGameActivity extends Fragment {
         btnStand.setEnabled(false);
         resolveBet();
         updateChipsUI();
-        btnPlaceBet.setEnabled(true);
-        resetGameState();
-        updateUI();
+        if (game.isGameOver()) {
+            btnNextRound.setEnabled(false);
+            btnPlaceBet.setEnabled(false);
+            Toast.makeText(requireContext(), "Game Over! Your chips are 0.", Toast.LENGTH_LONG).show();
+        } else {
+            btnNextRound.setEnabled(true);
+            btnPlaceBet.setEnabled(false);
+        }
     }
     private void resetGameState() {
         dealerHandContainer.removeAllViews();
@@ -209,7 +172,7 @@ public class SoloGameActivity extends Fragment {
         game.placeBet(betAmount);
         updateChipsUI();
 
-        // Enable game buttons
+
         btnHit.setEnabled(true);
         btnStand.setEnabled(true);
         btnPlaceBet.setEnabled(false);
@@ -227,5 +190,15 @@ public class SoloGameActivity extends Fragment {
         updateHandUI(game.getDealerHand(), dealerHandContainer, true); // Hide dealer's first card
         updateHandUI(game.getPlayerHand(), playerHandContainer, false);
         updateChipsUI();
+    }
+
+    private void startNextRound() {
+        game.startNextRound();
+        updateUI();
+
+        btnHit.setEnabled(true);
+        btnStand.setEnabled(true);
+        btnPlaceBet.setEnabled(true);
+        btnNextRound.setEnabled(false);
     }
 }

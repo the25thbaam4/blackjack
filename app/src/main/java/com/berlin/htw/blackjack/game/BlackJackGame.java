@@ -68,6 +68,19 @@ public class BlackJackGame implements BlackJackInterface {
         currentBet = 0;
     }
 
+    public void startNextRound() {
+        dealer.getHand().clear();
+        player.getHand().clear();
+        currentBet = 0;
+       // deck = new Deck();
+      //  deck.shuffle();
+
+        dealer.addHiddenCard(deck.dealCard());
+        dealer.getHand().addCard(deck.dealCard());
+
+        player.getHand().addCard(deck.dealCard());
+        player.getHand().addCard(deck.dealCard());
+    }
     @Override
     public boolean isGameOver() {
         return player.getChips() <= 0;
