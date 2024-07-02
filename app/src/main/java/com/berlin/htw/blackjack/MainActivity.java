@@ -16,6 +16,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.berlin.htw.blackjack.gui.ChooseGameFragment;
 
+/**
+ * The type Main activity.
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText username;
     private Button btnStart;

@@ -17,6 +17,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.berlin.htw.blackjack.R;
 
+/**
+ * The type Choose game fragment.
+ */
 public class ChooseGameFragment extends Fragment {
 
     private RadioGroup radioGroupGameOptions;
@@ -33,23 +36,21 @@ public class ChooseGameFragment extends Fragment {
 
         // Get the username from the arguments
         Bundle bundle = getArguments();
-        String username = bundle.getString("USERNAME");
-        welcomeMessage.setText("Welcome, " + username + "!");
+        String username;
+        if (bundle != null) {
+            username = bundle.getString("USERNAME");
+            welcomeMessage.setText("Welcome, " + username + "!");
+        } else {
+            username = "Player";
+        }
 
         btnConfirmSelection.setOnClickListener(v -> {
             int selectedId = radioGroupGameOptions.getCheckedRadioButtonId();
             if (selectedId == R.id.radioStartSoloGame) {
-              /*  SoloGameActivity soloGameActivity = new SoloGameActivity();
-                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, soloGameActivity);
-                transaction.addToBackStack(null);
-                transaction.commit();
-
-               */
-
 
                 Intent intent = new Intent(getActivity(), SoloGameActivity.class);
-                intent.putExtra("USERNAME", username); // Pass username as an extra
+                assert username != null;
+                intent.putExtra("USERNAME", username.toUpperCase());
                 startActivity(intent);
             } else if (selectedId == R.id.radioJoinBluetoothGame) {
                 BluetoothJoinFragment bluetoothJoinFragment = new BluetoothJoinFragment();

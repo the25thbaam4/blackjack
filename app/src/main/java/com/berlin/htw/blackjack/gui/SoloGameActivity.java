@@ -16,6 +16,9 @@ import com.berlin.htw.blackjack.game.BlackJackGame;
 import com.berlin.htw.blackjack.game.model.Card;
 import com.berlin.htw.blackjack.game.model.HandInterface;
 
+/**
+ * The type Solo game activity.
+ */
 public class SoloGameActivity extends AppCompatActivity {
 
     private BlackJackGame game;
@@ -66,7 +69,7 @@ public class SoloGameActivity extends AppCompatActivity {
             updateHandUI(game.getPlayerHand(), playerHandContainer, false);
 
             if (game.isPlayerBust()) {
-                showResult(game.getPlayer().getUsername() +" bust! Dealer wins.");
+                showResult(game.getPlayer().getUsername() + " bust! Dealer wins.");
                 endGame();
             }
         });

@@ -1,13 +1,20 @@
 package com.berlin.htw.blackjack.game.model;
 
+/**
+ * The type Card.
+ */
 public class Card implements CardInterface {
     private String value;
-
-
     private String type;
     private boolean isAce;
 
-    Card(String value, String type) {
+    /**
+     * Instantiates a new Card.
+     *
+     * @param value the value
+     * @param type  the type
+     */
+    public Card(String value, String type) {
         this.value = value;
         this.type = type;
 
@@ -24,6 +31,12 @@ public class Card implements CardInterface {
         return Integer.parseInt(value);
     }
 
+    /**
+     * Gets type.
+     *
+     * @return the type
+     */
+    @Override
     public String getType() {
         return type;
     }
@@ -38,6 +51,11 @@ public class Card implements CardInterface {
         return value + "_" + type;
     }
 
+    /**
+     * Gets image path.
+     *
+     * @return the image path
+     */
     public String getImagePath() {
 
         return "card_" + value.toLowerCase() + "_" + type.toLowerCase();

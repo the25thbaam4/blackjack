@@ -13,6 +13,9 @@ import com.berlin.htw.blackjack.game.model.HandInterface;
 import com.berlin.htw.blackjack.game.model.Player;
 import com.berlin.htw.blackjack.game.model.PlayerInterface;
 
+/**
+ * The type Black jack game.
+ */
 public class BlackJackGame implements BlackJackInterface {
 
 
@@ -22,10 +25,12 @@ public class BlackJackGame implements BlackJackInterface {
     private CardInterface hiddenCard;
     private int currentBet;
 
+    /**
+     * Instantiates a new Black jack game.
+     */
     public BlackJackGame() {
 
     }
-
 
     @Override
     public void startGame() {
@@ -61,7 +66,7 @@ public class BlackJackGame implements BlackJackInterface {
             player.increaseChips(currentBet * 2);
         } else if (result.contains("It's a tie")) {
             player.increaseChips(currentBet);
-        } else if (result.contains("Dealer bust! "+ getPlayer().getUsername() + " wins.")) {
+        } else if (result.contains("Dealer bust! " + getPlayer().getUsername() + " wins.")) {
             player.increaseChips(currentBet * 2);
         }
 
@@ -159,5 +164,19 @@ public class BlackJackGame implements BlackJackInterface {
         return player;
     }
 
+    @Override
+    public void resetPlayerHand() {
+        player = new Player();
+    }
+
+    @Override
+    public void resetDealerHand() {
+        dealer = new Dealer();
+    }
+
+    @Override
+    public void setPlayerName(String name) {
+        player.setUsername(name);
+    }
 
 }

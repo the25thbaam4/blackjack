@@ -24,6 +24,9 @@ import com.berlin.htw.blackjack.R;
 
 import java.util.Set;
 
+/**
+ * The type Bluetooth join fragment.
+ */
 public class BluetoothJoinFragment extends Fragment {
 
     private ActivityResultLauncher<Intent> enableBluetoothLauncher;

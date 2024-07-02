@@ -20,15 +20,15 @@ import java.util.Collection;
  * An ASAP app communicates by sending messages. First, you must ensure stability in your application.
  * Implement methods that serialized and deserialize messages. Implement a listener. Test your app
  * by testing scenarios. This class comprises a scenario in two steps.
- *
+ * <p>
  * One tests uses an asap mock. It simulates a message exchange but does not use ASAP at all.
- *
+ * <p>
  * The asapTestExamples is nearly identical with one important difference: The ASAP engines are used.
- *
+ * <p>
  * Note: The test scenarios do not differ at all. Your application and test logic is written once and is tested
  * against a mock and later against ASAP. Same interfaces are also available in Android.  YOu can spent some
  * times by implementing test scenarios. Makes app coding on your target platform much faster.
- *
+ * <p>
  * Test your app first with the mock and afterwards with the ASAP protocol stack. If anything runs smoothly -
  * you will have a stable Android or Java app in no time.
  */
@@ -36,8 +36,9 @@ public class UseThisAsTemplate4YourAppTests {
     private static final int PORT = 7777;
 
     private static int port = 0;
+
     static int getPortNumber() {
-        if(UseThisAsTemplate4YourAppTests.port == 0) {
+        if (UseThisAsTemplate4YourAppTests.port == 0) {
             UseThisAsTemplate4YourAppTests.port = PORT;
         } else {
             UseThisAsTemplate4YourAppTests.port++;

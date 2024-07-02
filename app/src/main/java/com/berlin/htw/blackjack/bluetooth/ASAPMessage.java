@@ -8,9 +8,17 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * The type Asap message.
+ */
 public class ASAPMessage implements ASAPMessageReceivedListener {
     private final String peerName;
 
+    /**
+     * Instantiates a new Asap message.
+     *
+     * @param peerName the peer name
+     */
     ASAPMessage(String peerName) {
         this.peerName = peerName;
     }

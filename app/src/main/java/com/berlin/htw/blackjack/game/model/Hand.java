@@ -3,9 +3,15 @@ package com.berlin.htw.blackjack.game.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Hand.
+ */
 public class Hand implements HandInterface {
     private List<Card> cards;
 
+    /**
+     * Instantiates a new Hand.
+     */
     public Hand() {
         cards = new ArrayList<>();
     }
@@ -44,6 +50,5 @@ public class Hand implements HandInterface {
     public void clear() {
         cards.clear();
     }
-
 
 }

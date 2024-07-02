@@ -14,6 +14,7 @@ public class TestUtils {
 
     /**
      * a serialization example
+     *
      * @param exampleLong
      * @param exampleString
      * @param exampleBoolean
