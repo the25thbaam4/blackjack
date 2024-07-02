@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+
+package "GUI" {
+  [MainScreen]
+  [ChooseGameSreen]
+  [GameScreen]
+}
+
+
+package "Controller" {
+  [BlackJackGame]
+ }
+
+package "Models" {
+    [Card]
+    [Player]
+    [Dealer]
+    [Deck]
+    [Hand]
+
+}
+
+
+
+
+[GUI] --(0-- [Controller]
+[Controller] --(0-- [Models]
+
+
+@enduml
